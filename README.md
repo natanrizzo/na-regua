@@ -21,9 +21,7 @@ Na Regua provides a unified system for administrators, barbers, and clients to:
 - **React Native**  
 - **TypeScript**  
 - **Expo CLI**  
-- **AsyncStorage** or **SQLite** (for local data storage)  
-- **React Navigation** (for screen navigation)  
-- **UI Library:** (e.g., React Native Paper or Tailwind RN)
+- **React Navigation**
 
 ## 📂 Project Structure
 
@@ -96,9 +94,9 @@ Na Regua provides a unified system for administrators, barbers, and clients to:
   1. Log in  
   2. View assigned appointments  
 - **Client**  
-  1. Sign up and log in  
-  2. Browse services and barbers  
-  3. Create appointments  
+   1. Sign up and log in  
+   2. Browse services and barbers  
+   3. Create appointments  
 
 
 ## 🛡️ License
