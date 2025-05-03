@@ -1,50 +1,106 @@
-# Welcome to your Expo app 👋
+# Na Regua
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+[![Expo](https://img.shields.io/badge/Expo-✓-lightblue)](https://expo.dev)
+[![React Native](https://img.shields.io/badge/React%20Native-✓-blue)](https://reactnative.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-✓-blue)](https://www.typescriptlang.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
-## Get started
+**Na Regua** is a college project: a mobile app built with React Native, TypeScript, and Expo to manage all aspects of a barbershop.
 
-1. Install dependencies
+## 📝 Description
 
+Na Regua provides a unified system for administrators, barbers, and clients to:
+- Manage employee registrations (Administrator and Barber roles)  
+- Manage client registrations  
+- Manage products and services with pricing and profit margins  
+- View detailed financial reports  
+- Schedule services (by administrators and clients)  
+
+## 🚀 Technology Stack
+
+- **React Native**  
+- **TypeScript**  
+- **Expo CLI**  
+- **AsyncStorage** or **SQLite** (for local data storage)  
+- **React Navigation** (for screen navigation)  
+- **UI Library:** (e.g., React Native Paper or Tailwind RN)
+
+## 📂 Project Structure
+
+```
+/NA-REGUA
+├── .expo/               # Expo files
+├── app/                 # Expo app entry
+├── assets/              # Images, icons, and fonts
+├── components/          # Reusable UI components
+├── hooks/               # Custom hooks
+├── themes/              # Styling themes
+├── .gitignore           # Git ignore rules
+├── app.json             # Expo configuration
+├── expo-env.d.ts        # Expo environment types
+├── LICENSE              # License file
+├── package-lock.json    # Lock file for npm
+├── package.json         # Project metadata & dependencies
+├── README.md            # This file
+└── tsconfig.json        # TypeScript configuration
+```
+
+## ⚙️ Features
+
+1. **Employee Management**  
+   - Register employees as "Administrator" or "Barber"  
+2. **Client Registration & Login**  
+   - Clients can sign up and log in  
+3. **User Management**  
+   - Administrators can edit and delete employees and clients  
+4. **Product Management**  
+   - Add, edit, and delete products with name, sale price, and profit  
+5. **Service Management**  
+   - Add, edit, and delete services with name, price, and duration  
+6. **Financial Reports**  
+   - View earnings by day, client, service, and product  
+7. **Scheduling**  
+   - Administrators: schedule appointments (client, service, barber, date, time)  
+   - Barbers: view assigned appointments  
+   - Clients: book appointments by selecting service, barber, and available slots  
+
+## 🚀 Getting Started
+
+1. **Clone the repository**  
+   ```bash
+   git clone https://github.com/natanrizzo/na-regua.git
+   cd na-regua
+   ```
+
+2. **Install dependencies**  
    ```bash
    npm install
    ```
 
-2. Start the app
-
+3. **Start Expo**  
    ```bash
-    npx expo start
+   expo start
    ```
 
-In the output, you'll find options to open the app in a
+4. **Run on your device**  
+   - Scan the QR code with Expo Go (iOS/Android)  
+   - Or launch on an emulator/simulator  
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 📈 Usage Flow
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- **Administrator**  
+  1. Log in  
+  2. Manage employees, products, and services  
+  3. Access financial reports and create appointments  
+- **Barber**  
+  1. Log in  
+  2. View assigned appointments  
+- **Client**  
+  1. Sign up and log in  
+  2. Browse services and barbers  
+  3. Create appointments  
 
-## Get a fresh project
 
-When you're ready, run:
+## 🛡️ License
 
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
