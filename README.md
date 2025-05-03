@@ -1,4 +1,4 @@
-# Na Regua
+# 💈 Na Regua
 
 [![Expo](https://img.shields.io/badge/Expo-✓-lightblue)](https://expo.dev)
 [![React Native](https://img.shields.io/badge/React%20Native-✓-blue)](https://reactnative.dev)
