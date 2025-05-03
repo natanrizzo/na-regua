@@ -5,6 +5,8 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-✓-blue)](https://www.typescriptlang.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
+![Logo](docs/appLogo.png)
+
 **Na Regua** is a college project: a mobile app built with React Native, TypeScript, and Expo to manage all aspects of a barbershop.
 
 ## 📝 Description
