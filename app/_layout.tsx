@@ -1,45 +1,27 @@
-import { theme } from '@/themes';
-import { ThemeProvider } from '@shopify/restyle';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { theme } from "@/themes";
+import { ThemeProvider } from "@shopify/restyle";
+import { Stack } from "expo-router";
+import { useFonts } from "expo-font";
+import AppLoading from "expo-app-loading";
 
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [loaded] = useFonts({
-    poppinsBold: require("../assets/fonts/Poppins-Bold.ttf"),
-    poppinsExtraBold: require("../assets/fonts/Poppins-ExtraBold.ttf"),
-    poppinsExtraLight: require("../assets/fonts/Poppins-ExtraLight.ttf"),
-    poppinsLight: require("../assets/fonts/Poppins-Light.ttf"),
-    poppinsMedium: require("../assets/fonts/Poppins-Medium.ttf"),
-    poppinsRegular: require("../assets/fonts/Poppins-Regular.ttf"),
-    poppinsSemiBold: require("../assets/fonts/Poppins-SemiBold.ttf"),
-    poppinsThin: require("../assets/fonts/Poppins-Thin.ttf"),
-  });
+    const [fontsLoaded] = useFonts({
+        'poppinsRegular': require('../assets/fonts/Poppins-Regular.ttf'),
+        'poppinsBold': require('../assets/fonts/Poppins-Bold.ttf')
+    })
 
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
+    if (!fontsLoaded) {
+        return <AppLoading />
     }
-  }, [loaded]);
 
-  if (!loaded) {
-    return null;
-  }
-
-  return (
-    <ThemeProvider theme={theme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+    return (
+        <ThemeProvider theme={theme}>
+            <Stack initialRouteName="index">
+                <Stack.Screen name="index" options={{ title: "Home" }} />
+                <Stack.Screen name="componentTest/index" options={{ title: "Testing" }} />
+                <Stack.Screen name="+not-found" options={{ title: 'Oops!' }} />
+            </Stack>
+        </ThemeProvider>
+    )
 }

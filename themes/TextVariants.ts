@@ -9,7 +9,7 @@ export const textVariants = {
     },
     subtitle: {
         fontSize: 16,
-        fontFamily: 'poppinsMedium',
+        fontFamily: 'poppinsBold',
     },    
     span: {
         fontSize: 14,

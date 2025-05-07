@@ -1,7 +1,7 @@
 import { Palette } from './Palette';
 
 
-export const StateColors = {
+export const stateColors = {
     // Default/Rest state
     'rest-textColor': Palette.dark[900],
     'rest-backgroundColor': 'transparent',
