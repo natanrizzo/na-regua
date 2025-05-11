@@ -3,6 +3,6 @@ import { Product } from "@/types/Product";
 type ProductCardSize = 'small' | 'large'
 
 export type ProductCardProps = {
-    size: ProductCardSize;
+    size?: ProductCardSize;
     product: Product;
 }
