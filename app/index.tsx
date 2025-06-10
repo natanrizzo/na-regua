@@ -1,14 +1,5 @@
-import Text from "@/components/Text";
-import { useRouter } from "expo-router";
-import { View } from "react-native";
+import { Redirect } from 'expo-router';
 
-
-export default function HomeScreen() {
-    const router = useRouter();
-
-    return (
-        <View>
-            <Text >Home Screen</Text>
-        </View>
-    );
+export default function IndexScreen() {
+  return <Redirect href="/home" />;
 }

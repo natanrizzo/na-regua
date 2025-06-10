@@ -1,27 +1,45 @@
-import { theme } from "@/themes";
-import { ThemeProvider } from "@shopify/restyle";
-import { Stack } from "expo-router";
-import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+// app/_layout.tsx
+import React, { useEffect } from 'react';
+import { Stack, useRouter } from 'expo-router';
+import { AuthProvider, useAuth } from '../context/AuthContext';
+import { Text, View } from 'react-native';
 
+const ProtectedLayout = () => {
+  const { isAuthenticated, isLoading } = useAuth();
+  const router = useRouter();
 
-export default function RootLayout() {
-    const [fontsLoaded] = useFonts({
-        'poppinsRegular': require('../assets/fonts/Poppins-Regular.ttf'),
-        'poppinsBold': require('../assets/fonts/Poppins-Bold.ttf')
-    })
-
-    if (!fontsLoaded) {
-        return <AppLoading />
+  useEffect(() => {
+    if (isLoading) {
+      return;
     }
 
+    if (isAuthenticated) {
+      router.replace('/home');
+    } else {
+      router.replace('/login');
+    }
+  }, [isAuthenticated, isLoading]); // O efeito roda sempre que esses valores mudam
+
+  // Mostra uma tela de carregamento simples enquanto o contexto verifica o token
+  if (isLoading) {
     return (
-        <ThemeProvider theme={theme}>
-            <Stack initialRouteName="index">
-                <Stack.Screen name="index" options={{ title: "Home" }} />
-                <Stack.Screen name="componentTest/index" options={{ title: "Testing" }} />
-                <Stack.Screen name="+not-found" options={{ title: 'Oops!' }} />
-            </Stack>
-        </ThemeProvider>
-    )
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Carregando...</Text>
+      </View>
+    );
+  }
+
+  // Define as telas que o navegador pode acessar.
+  // A lógica acima cuidará de mostrar a tela correta.
+  return (
+      <Stack screenOptions={{ headerShown: false }} />
+  );
+};
+
+export default function RootLayout() {
+  return (
+    <AuthProvider>
+      <ProtectedLayout />
+    </AuthProvider>
+  );
 }
