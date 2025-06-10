@@ -17,8 +17,8 @@ import { Feather } from '@expo/vector-icons';
 
 export default function LoginScreen() {
     const { login } = useAuth();
-    const [email, setEmail] = useState('fanen@studio.com'); 
-    const [password, setPassword] = useState('**********');
+    const [email, setEmail] = useState(''); 
+    const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false); 
 
     const { width } = useWindowDimensions();
