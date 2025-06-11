@@ -10,12 +10,15 @@ import {
     useWindowDimensions,
     Platform,
     ActivityIndicator,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    
 } from 'react-native';
+import { useRouter } from 'expo-router'
 import { useAuth } from '../context/AuthContext';
 import { Feather } from '@expo/vector-icons'; 
 
 export default function LoginScreen() {
+    const router = useRouter();
     const { login } = useAuth();
     const [email, setEmail] = useState(''); 
     const [password, setPassword] = useState('');
@@ -26,14 +29,15 @@ export default function LoginScreen() {
 
     const handleLoginPress = async () => {
         if (!email || !password) {
-            Alert.alert("Erro", "Por favor, preencha o email e a senha.");
+            
+            Alert.alert("Error", "Please, enter your email and password.");
             return;
         }
         setIsLoading(true); 
         try {
             await login(email, password);
         } catch (error: any) {
-            Alert.alert("Falha no Login", error.message || "Ocorreu um erro.");
+            Alert.alert("Login error", error.message || "Something went wrong.");
         } finally {
             setIsLoading(false);
         }
@@ -92,7 +96,7 @@ export default function LoginScreen() {
                         )}
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.registerLink}>
+                    <TouchableOpacity style={styles.registerLink} onPress={() => router.navigate('/register')}>
                         <Text style={styles.registerText}>
                             Don't have any account? <Text style={styles.registerTextHighlight}>Register</Text>
                         </Text>

@@ -1,10 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import api from "./api"; // Supondo que você tenha um api.ts que exporta uma instância do axios
+import api from "./api"; 
 
-/**
- * Esta função é chamada na inicialização do app.
- * Ela verifica se existe um token, configura o header do axios e retorna o token.
- */
 const bootstrapAuth = async (): Promise<string | null> => {
     const token = await AsyncStorage.getItem('userToken');
     if (token) {
