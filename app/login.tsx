@@ -23,21 +23,34 @@ export default function LoginScreen() {
     const [email, setEmail] = useState(''); 
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false); 
+    const [errorMessage, setErrorMessage] = useState('');
 
     const { width } = useWindowDimensions();
     const isDesktop = width >= 768;
 
     const handleLoginPress = async () => {
         if (!email || !password) {
-            
-            Alert.alert("Error", "Please, enter your email and password.");
+            if(!isDesktop){
+                Alert.alert("Error", "Please, enter your email and password.");
+            }
+            else{
+                setErrorMessage("Please, enter your email and password.");
+            }
+            //Alert do react não está funcionando na WEB, criei o CustomAlert, porém acho que fica 
+            //Muita coisa na tela em WEB
+            //Talvez nem sjea bom a pena colocar alerta, mas vamos vendo
             return;
         }
-        setIsLoading(true); 
+        setIsLoading(true);
         try {
             await login(email, password);
         } catch (error: any) {
-            Alert.alert("Login error", error.message || "Something went wrong.");
+            if(!isDesktop){
+                Alert.alert("Login error", "Something went wrong.");
+            }
+            else{
+                setErrorMessage("wrong credentials");
+            }
         } finally {
             setIsLoading(false);
         }
@@ -70,7 +83,7 @@ export default function LoginScreen() {
                     </View>
 
                     <Text style={styles.inputLabel}>Password</Text>
-                    <View style={styles.inputContainer}>
+                    <View style={[styles.inputContainer, {marginBottom: 0,}]}>
                         <TextInput
                             style={styles.input}
                             value={password}
@@ -79,6 +92,14 @@ export default function LoginScreen() {
                         />
                         <Feather name="lock" size={20} color="#888" style={styles.inputIcon} />
                     </View>
+                    {errorMessage ? (
+                        <Text style={styles.errorMessages}>
+                            {errorMessage}
+                        </Text>
+                    ) : (
+                        <></>
+                    )}
+                    
 
                     <TouchableOpacity>
                         <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
@@ -105,6 +126,9 @@ export default function LoginScreen() {
 
                 {isDesktop && (
                     <View style={styles.imageContainer}>
+                        <Image style={styles.desktopImage}
+                                source={require('../assets/images/barber_shop.jpg')}
+                                resizeMode="cover"/>
                     </View>
                 )}
             </View>
@@ -210,7 +234,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#6D5FFD', 
     },
     desktopImage: {
-        width: '80%',
-        height: '80%',
+        width: '100%',
     },
+    errorMessages:{
+        color: '#FF2C2C',
+        fontSize: 14,
+        fontWeight: 'bold',
+    }
 });

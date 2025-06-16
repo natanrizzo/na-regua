@@ -6,6 +6,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
+  register: (name:string, email: string, password: string)=> Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -16,15 +17,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-  const bootstrapApp = async () => {
-    const token = await authApi.bootstrapAuth();
-    if (token) {
-      setIsAuthenticated(true);
-    }
-    setIsLoading(false);
-  };
-  bootstrapApp();
-}, []);
+    const bootstrapApp = async () => {
+      const token = await authApi.bootstrapAuth();
+      if (token) {
+        setIsAuthenticated(true);
+      }
+      setIsLoading(false);
+    };
+    bootstrapApp();
+  }, []);
 
   const handleLogin = async (email: string, password: string) => {
     try {
@@ -40,9 +41,20 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     await authApi.logout();
     setIsAuthenticated(false);
   };
+  const handleRegister = async(name: string, email: string, password: string) =>{
+    try{
+      await authApi.register(name, email, password);
+      setIsAuthenticated(true);
+    }
+    catch(err){
+      console.error('Register failed: ', err)
+      throw err;
+    }
+
+  }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, isLoading, login: handleLogin, logout: handleLogout }}>
+    <AuthContext.Provider value={{ isAuthenticated, isLoading, login: handleLogin, logout: handleLogout, register: handleRegister }}>
       {children}
     </AuthContext.Provider>
   );

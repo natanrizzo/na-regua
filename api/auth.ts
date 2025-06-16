@@ -28,5 +28,18 @@ const logout = async() => {
     delete api.defaults.headers.common['Authorization'];
 }
 
-// GARANTA QUE bootstrapAuth ESTÁ SENDO EXPORTADO AQUI
-export { bootstrapAuth, login, logout };
+const register = async (name:string, email: string, password: string) =>{
+    try{
+        console.log("started register");
+        const response = await api.post('/auth/register', { name, email, password });
+        const token = response.data.accessToken;
+        await AsyncStorage.setItem('userToken', token);
+        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        return response.data;
+    }
+    catch(err: any){
+        console.error('Register failed', err.response?.data || err.message);
+        throw err;
+    }
+}
+export { bootstrapAuth, login, logout, register };
