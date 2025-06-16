@@ -14,51 +14,42 @@ import {
     
 } from 'react-native';
 import { useRouter } from 'expo-router'
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '@/context/AuthContext';
 import { Feather } from '@expo/vector-icons'; 
 
-export default function RegisterScreen() {
+export default function LoginScreen() {
     const router = useRouter();
-    const { register } = useAuth();
-    const [name, setName] = useState('');
+    const { login } = useAuth();
     const [email, setEmail] = useState(''); 
     const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false); 
     const [errorMessage, setErrorMessage] = useState('');
 
     const { width } = useWindowDimensions();
     const isDesktop = width >= 768;
 
-    const handleRegisterPress = async () => {
-        if (!email || !password || !name || !confirmPassword) {
+    const handleLoginPress = async () => {
+        if (!email || !password) {
             if(!isDesktop){
-                Alert.alert("Error", "Please, fill all fields.");
+                Alert.alert("Error", "Please, enter your email and password.");
             }
             else{
-                setErrorMessage("Please, fill all fields.");
+                setErrorMessage("Please, enter your email and password.");
             }
-            return;
-        }
-        if (password!=confirmPassword){
-          if(!isDesktop){
-                Alert.alert("Error", "The passwords are not equal.");
-            }
-            else{
-                setErrorMessage("The passwords are not equal.");
-            }
+            //Alert do react não está funcionando na WEB, criei o CustomAlert, porém acho que fica 
+            //Muita coisa na tela em WEB
+            //Talvez nem sjea bom a pena colocar alerta, mas vamos vendo
             return;
         }
         setIsLoading(true);
         try {
-          setErrorMessage("");
-            await register(name, email, password);
+            await login(email, password);
         } catch (error: any) {
             if(!isDesktop){
-                Alert.alert(error.response?.data?.message || error.message || "Ocorreu um erro desconhecido.");
+                Alert.alert("Login error", "Something went wrong.");
             }
             else{
-                setErrorMessage(error.response?.data?.message || error.message || "Ocorreu um erro desconhecido.");
+                setErrorMessage("wrong credentials");
             }
         } finally {
             setIsLoading(false);
@@ -74,22 +65,10 @@ export default function RegisterScreen() {
                 <View style={[styles.formContainer, isDesktop ? styles.desktopFormContainer : {}]}>
                     <Image 
                         style={styles.logoImage} 
-                        source={require('../assets/images/appLogo.png')} 
+                        source={require('@/assets/images/appLogo.png')} 
                         resizeMode="contain"
                     />
-                    <Text style={styles.title}>Register In to continue</Text>
-
-                    <Text style={styles.inputLabel}>Name</Text>
-                    <View style={styles.inputContainer}>
-                        <TextInput
-                            style={styles.input}
-                            value={name}
-                            onChangeText={setName}
-                            keyboardType="default"
-                            autoCapitalize="none"
-                        />
-                        <Feather name="user" size={20} color="#888" style={styles.inputIcon} />
-                    </View>
+                    <Text style={styles.title}>Sign In to continue</Text>
 
                     <Text style={styles.inputLabel}>Email</Text>
                     <View style={styles.inputContainer}>
@@ -113,17 +92,6 @@ export default function RegisterScreen() {
                         />
                         <Feather name="lock" size={20} color="#888" style={styles.inputIcon} />
                     </View>
-                    <Text style={[styles.inputLabel, {marginTop: 6}]}>Confirm your password</Text>
-
-                    <View style={[styles.inputContainer, {marginBottom: 0,}]}>
-                        <TextInput
-                            style={styles.input}
-                            value={confirmPassword}
-                            onChangeText={setConfirmPassword}
-                            secureTextEntry
-                        />
-                        <Feather name="lock" size={20} color="#888" style={styles.inputIcon} />
-                    </View>
                     {errorMessage ? (
                         <Text style={styles.errorMessages}>
                             {errorMessage}
@@ -139,19 +107,19 @@ export default function RegisterScreen() {
 
                     <TouchableOpacity 
                         style={styles.signInButton} 
-                        onPress={handleRegisterPress}
+                        onPress={handleLoginPress}
                         disabled={isLoading}
                     >
                         {isLoading ? (
                             <ActivityIndicator color="#fff" />
                         ) : (
-                            <Text style={styles.signInButtonText}>Register</Text>
+                            <Text style={styles.signInButtonText}>Sign In</Text>
                         )}
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.loginLink} onPress={() => router.navigate('/login')}>
-                        <Text style={styles.loginText}>
-                            Already have an account? <Text style={styles.loginTextHighlight}>Login</Text>
+                    <TouchableOpacity style={styles.registerLink} onPress={() => router.navigate('/register')}>
+                        <Text style={styles.registerText}>
+                            Don't have any account? <Text style={styles.registerTextHighlight}>Register</Text>
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -159,7 +127,7 @@ export default function RegisterScreen() {
                 {isDesktop && (
                     <View style={styles.imageContainer}>
                         <Image style={styles.desktopImage}
-                                source={require('../assets/images/barber_shop.jpg')}
+                                source={require('@/assets/images/barber_shop.jpg')}
                                 resizeMode="cover"/>
                     </View>
                 )}
@@ -247,15 +215,15 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
     },
-    loginLink: {
+    registerLink: {
         marginTop: 32,
         alignItems: 'center',
     },
-    loginText: {
+    registerText: {
         color: '#A0AEC0',
         fontSize: 14,
     },
-    loginTextHighlight: {
+    registerTextHighlight: {
         color: '#6D5FFD',
         fontWeight: 'bold',
     },

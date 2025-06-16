@@ -1,26 +1,52 @@
-// app/_layout.tsx
 import React, { useEffect } from 'react';
-import { Stack, useRouter } from 'expo-router';
+import { Stack, useRouter, useSegments } from 'expo-router';
 import { AuthProvider, useAuth } from '../context/AuthContext';
 import { Text, View } from 'react-native';
 
+const routePermissions: { [key: string]: string[] } = {
+  'admin':['Administrator'],
+  'barbeiro':['Client'],
+  'client':['Barber'],
+}
+const homeRoutes ={
+  Administrator: '/admin/home',
+  Barber: '/barber/home',
+  Client: '/client/home',
+} as const;
 const ProtectedLayout = () => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, user } = useAuth();
+  const segments= useSegments();
   const router = useRouter();
 
   useEffect(() => {
     if (isLoading) {
       return;
     }
+    
+    const inPublicGroup = segments[0] === '(public)';
 
-    if (isAuthenticated) {
-      router.replace('/home');
-    } else {
-      router.replace('/login');
+    if (!isAuthenticated && !inPublicGroup) {
+      router.replace('/(public)/login');
     }
-  }, [isAuthenticated, isLoading]); // O efeito roda sempre que esses valores mudam
+    if(isAuthenticated && user){
+      if(inPublicGroup){
+        const homeRoute = homeRoutes[user.role] || '/';
+        return router.replace(homeRoute);
+      }
+      const currentSection = segments[0];
+      if (currentSection && routePermissions[currentSection]){
+        const requiredRoles = routePermissions[currentSection];
+        const hasPermission = requiredRoles.includes(user.role);
 
-  // Mostra uma tela de carregamento simples enquanto o contexto verifica o token
+        if(!hasPermission){
+          const homeRoute = homeRoutes[user.role] || '/';
+          router.replace(homeRoute)
+        }
+      }
+    }
+
+  }, [isAuthenticated, isLoading, user, segments]); 
+
   if (isLoading) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -29,10 +55,13 @@ const ProtectedLayout = () => {
     );
   }
 
-  // Define as telas que o navegador pode acessar.
-  // A lógica acima cuidará de mostrar a tela correta.
   return (
-      <Stack screenOptions={{ headerShown: false }} />
+      <Stack screenOptions={{ headerShown: false }} >
+      <Stack.Screen name="(public)"/>
+      <Stack.Screen name="admin"/>
+      <Stack.Screen name="barber"/>
+      <Stack.Screen name="client"/>
+      </Stack>
   );
 };
 
