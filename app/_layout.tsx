@@ -5,8 +5,8 @@ import { Text, View } from 'react-native';
 
 const routePermissions: { [key: string]: string[] } = {
   'admin':['Administrator'],
-  'barbeiro':['Client'],
-  'client':['Barber'],
+  'barbeiro':['Barber'],
+  'client':['Client'],
 }
 const homeRoutes ={
   Administrator: '/admin/home',
@@ -24,7 +24,6 @@ const ProtectedLayout = () => {
     }
     
     const inPublicGroup = segments[0] === '(public)';
-
     if (!isAuthenticated && !inPublicGroup) {
       router.replace('/(public)/login');
     }
@@ -57,7 +56,6 @@ const ProtectedLayout = () => {
 
   return (
       <Stack screenOptions={{ headerShown: false }} >
-      <Stack.Screen name="(public)"/>
       <Stack.Screen name="admin"/>
       <Stack.Screen name="barber"/>
       <Stack.Screen name="client"/>

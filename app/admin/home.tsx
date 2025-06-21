@@ -5,7 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 
 export default function HomeScreen() {
     const { logout } = useAuth();
-
+    
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Home</Text>
