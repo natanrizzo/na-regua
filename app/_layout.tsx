@@ -5,7 +5,7 @@ import { Text, View } from 'react-native';
 
 const routePermissions: { [key: string]: string[] } = {
   'admin':['Administrator'],
-  'barbeiro':['Barber'],
+  'barber':['Barber'],
   'client':['Client'],
 }
 const homeRoutes ={

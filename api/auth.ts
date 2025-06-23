@@ -30,7 +30,6 @@ const logout = async() => {
 
 const register = async (name:string, email: string, password: string) =>{
     try{
-        console.log("started register");
         const response = await api.post('/auth/register', { name, email, password });
         const token = response.data.accessToken;
         await AsyncStorage.setItem('userToken', token);

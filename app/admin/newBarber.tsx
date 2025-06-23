@@ -1,8 +1,8 @@
+import React, { useState } from 'react';
 
-import React, {useState} from 'react';
-import { View, Text, Button, StyleSheet, KeyboardAvoidingView, Platform, TextInput } from 'react-native';
+import { View, Text, Button, StyleSheet, KeyboardAvoidingView, Platform, TextInput, ScrollView } from 'react-native';
 
-export default function HomeScreen() {
+export default function AddBarberScreen() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -19,73 +19,91 @@ export default function HomeScreen() {
     const [errorMessage, setErrorMessage] = useState('');
 
     return (
-        <KeyboardAvoidingView 
+        <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={styles.container}
+            style={styles.outerContainer} 
         >
-            <View>
-                <View style={styles.container}>
-                    <Text style={styles.title}>New barber</Text>
+            <ScrollView
+                contentContainerStyle={styles.formContainer}
+                keyboardShouldPersistTaps="handled"
+            >
+                <Text style={styles.title}>Novo Barbeiro</Text>
+
+                <Text style={styles.inputLabel}>Nome</Text>
+                <View style={styles.inputContainer}>
+                    <TextInput placeholder="Nome completo" value={name} onChangeText={setName} style={styles.input} />
                 </View>
-                <View>
-                    <TextInput value={name} onChangeText={setName} autoCapitalize='none' keyboardType='default'>
-                    </TextInput>
+
+                <Text style={styles.inputLabel}>Email</Text>
+                <View style={styles.inputContainer}>
+                    <TextInput placeholder="email@exemplo.com" value={email} onChangeText={setEmail} style={styles.input} keyboardType='email-address' autoCapitalize='none' />
                 </View>
-                <View>
-                    <TextInput value={email} onChangeText={setEmail} autoCapitalize='none' keyboardType='default'>
-                    </TextInput>
+
+                <Text style={styles.inputLabel}>Senha</Text>
+                <View style={styles.inputContainer}>
+                    <TextInput placeholder="Senha" value={password} onChangeText={setPassword} style={styles.input} secureTextEntry />
                 </View>
-                <View>
-                    <TextInput value={password} onChangeText={setPassword} autoCapitalize='none' keyboardType='default'>
-                    </TextInput>
+
+                <Text style={styles.inputLabel}>Confirmar Senha</Text>
+                <View style={styles.inputContainer}>
+                    <TextInput placeholder="Confirme a senha" value={confirmPassword} onChangeText={setConfirmPassword} style={styles.input} secureTextEntry />
                 </View>
-                <View>
-                    <TextInput value={confirmPassword} onChangeText={setConfirmPassword} autoCapitalize='none' keyboardType='default'>
-                    </TextInput>
+                {/*Talvez adicionar alguma função de CEP aqui depois*/}
+                <Text style={styles.inputLabel}>CEP</Text>
+                <View style={styles.inputContainer}>
+                    <TextInput placeholder="CEP" value={postalCode} onChangeText={setPostalCode} style={styles.input} keyboardType="numeric" />
                 </View>
-                <View>
-                    <TextInput value={country} onChangeText={setCountry} autoCapitalize='none' keyboardType='default'>
-                    </TextInput>
+                <Text style={styles.inputLabel}>País</Text>
+                <View style={styles.inputContainer}>
+                    <TextInput placeholder="País" value={country} onChangeText={setCountry} style={styles.input} />
                 </View>
-                <View>
-                    <TextInput value={state} onChangeText={setState} autoCapitalize='none' keyboardType='default'>
-                    </TextInput>
+                
+                <Text style={styles.inputLabel}>Estado</Text>
+                <View style={styles.inputContainer}>
+                    <TextInput placeholder="Estado" value={state} onChangeText={setState} style={styles.input} />
                 </View>
-                <View>
-                    <TextInput value={city} onChangeText={setCity} autoCapitalize='none' keyboardType='default'>
-                    </TextInput>
+
+                <Text style={styles.inputLabel}>Cidade</Text>
+                <View style={styles.inputContainer}>
+                    <TextInput placeholder="Cidade" value={city} onChangeText={setCity} style={styles.input} />
                 </View>
-                <View>
-                    <TextInput value={postalCode} onChangeText={setPostalCode} autoCapitalize='none' keyboardType='default'>
-                    </TextInput>
+
+
+                <Text style={styles.inputLabel}>Rua</Text>
+                <View style={styles.inputContainer}>
+                    <TextInput placeholder="Rua / Avenida" value={street} onChangeText={setStreet} style={styles.input} />
                 </View>
-                <View>
-                    <TextInput value={street} onChangeText={setStreet} autoCapitalize='none' keyboardType='default'>
-                    </TextInput>
+
+                <Text style={styles.inputLabel}>Número</Text>
+                <View style={styles.inputContainer}>
+                    <TextInput placeholder="Número" value={number} onChangeText={setNumber} style={styles.input} keyboardType="numeric" />
                 </View>
-                <View>
-                    <TextInput value={number} onChangeText={setNumber} autoCapitalize='none' keyboardType='default'>
-                    </TextInput>
+
+                <Text style={styles.inputLabel}>Complemento</Text>
+                <View style={styles.inputContainer}>
+                    <TextInput placeholder="Apto, bloco, etc. (opcional)" value={complement} onChangeText={setComplement} style={styles.input} />
                 </View>
-                <View>
-                    <TextInput value={complement} onChangeText={setComplement} autoCapitalize='none' keyboardType='default'>
-                    </TextInput>
+
+                <View style={{ marginTop: 20, marginBottom: 40 }}>
+                    <Button title="Salvar Barbeiro" onPress={() => {  }} />
                 </View>
-            </View>
+            </ScrollView>
         </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    outerContainer: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        backgroundColor: '#fff', 
+    },
+    formContainer: {
+        padding: 24,
     },
     title: {
-        fontSize: 24,
+        fontSize: 28,
         fontWeight: 'bold',
-        marginBottom: 20,
+        marginBottom: 30, 
     },
     input: {
         flex: 1,
@@ -93,5 +111,19 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         fontSize: 16,
     },
-    
+    inputContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#F7FAFC',
+        borderWidth: 1,
+        borderColor: '#E2E8F0',
+        borderRadius: 8,
+        marginBottom: 20, 
+    },
+    inputLabel: {
+        fontSize: 14,
+        fontWeight: '600',
+        color: '#4A5568',
+        marginBottom: 8,
+    },
 });
