@@ -55,10 +55,10 @@ export default function RegisterScreen() {
             await register(name, email, password);
         } catch (error: any) {
             if(!isDesktop){
-                Alert.alert(error.response?.data?.message || error.message || "Ocorreu um erro desconhecido.");
+                Alert.alert(error.response?.data?.message || error.message || "Something went wrong");
             }
             else{
-                setErrorMessage(error.response?.data?.message || error.message || "Ocorreu um erro desconhecido.");
+                setErrorMessage(error.response?.data?.message || error.message || "Something went wrong");
             }
         } finally {
             setIsLoading(false);
