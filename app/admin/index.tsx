@@ -1,41 +1,59 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
     View, 
     Text, 
     StyleSheet, 
     TouchableOpacity, 
     FlatList,
-    SafeAreaView 
+    SafeAreaView,
+    ActivityIndicator
 } from 'react-native';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
+import { getBarbers } from '@/api/admin';
 
-const mockBarbers = [
-  { id: '1', name: 'Carlos Almeida', specialty: 'Corte Clássico & Barba' },
-  { id: '2', name: 'Mariana Lima', specialty: 'Coloração & Penteados' },
-  { id: '3', name: 'Ricardo Neves', specialty: 'Navalha & Desenhos' },
-  { id: '4', name: 'Beatriz Costa', specialty: 'Cortes Modernos' },
-];
+type Barber = {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+}
 
 export default function AdminHomeScreen() {
     const { logout, user } = useAuth();
     const router = useRouter();
 
-    const renderBarberItem = ({ item }: { item: typeof mockBarbers[0] }) => (
-        <View style={styles.barberItemContainer}>
-            <View>
-                <Text style={styles.barberName}>{item.name}</Text>
-                <Text style={styles.barberSpecialty}>{item.specialty}</Text>
+    const [barbers, setBarbers] = useState<Barber[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchBarbers = async () => {
+            setIsLoading(true);
+            try {
+                const barbersData = await getBarbers(); 
+
+                if (Array.isArray(barbersData)) {
+                    setBarbers(barbersData);
+                }
+            } catch (error) {
+                console.error("Erro ao buscar barbeiros:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchBarbers();
+    }, []);
+
+    if (isLoading) {
+        return (
+            <View style={styles.centered}>
+                <ActivityIndicator size="large" color="#007BFF" />
+                <Text>Carregando Barbeiros...</Text>
             </View>
-            <TouchableOpacity 
-                style={styles.detailsButton} 
-                onPress={() => router.push(`/admin`)}
-            >
-                <Text style={styles.detailsButtonText}>Detalhes</Text>
-            </TouchableOpacity>
-        </View>
-    );
+        );
+    }
 
     return (
         <SafeAreaView style={styles.safeArea}>
@@ -59,14 +77,23 @@ export default function AdminHomeScreen() {
                     <Text style={styles.addBarberButtonText}>Adicionar Novo Barbeiro</Text>
                 </TouchableOpacity>
 
-                <Text style={styles.listHeader}>Barbeiros Cadastrados</Text>
                 <FlatList
-                    data={mockBarbers}
-                    renderItem={renderBarberItem}
-                    keyExtractor={item => item.id}
-                    style={styles.list}
-                    ListEmptyComponent={<Text style={styles.emptyListText}>Nenhum barbeiro cadastrado.</Text>}
-                />
+                data={barbers}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                    <View style={styles.barberItem}>
+                        <View>
+                            <Text style={styles.barberName}>{item.name}</Text>
+                            <Text style={styles.barberEmail}>{item.email}</Text>
+                        </View>
+                        <TouchableOpacity style={styles.detailsButton}>
+                            <Text>Detalhes</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
+                ListHeaderComponent={<Text style={styles.listHeader}>Barbeiros Cadastrados</Text>}
+                ListEmptyComponent={<Text style={styles.emptyText}>Nenhum barbeiro encontrado.</Text>}
+            />
 
                 <TouchableOpacity style={styles.logoutButton} onPress={logout}>
                     <Feather name="log-out" size={20} color="#D9534F" />
@@ -78,13 +105,59 @@ export default function AdminHomeScreen() {
 }
 
 const styles = StyleSheet.create({
-    safeArea: {
-        flex: 1,
-        backgroundColor: '#f8f9fa',
-    },
     container: {
         flex: 1,
         padding: 20,
+        backgroundColor: '#f4f4f4',
+    },
+    centered: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    title: {
+        fontSize: 28,
+        fontWeight: 'bold',
+        marginBottom: 20,
+    },
+    listHeader: {
+        fontSize: 20,
+        fontWeight: '600',
+        marginBottom: 10,
+    },
+    barberItem: {
+        backgroundColor: '#fff',
+        padding: 15,
+        borderRadius: 8,
+        marginBottom: 10,
+        borderWidth: 1,
+        borderColor: '#ddd',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    barberName: {
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    barberEmail: {
+        fontSize: 14,
+        color: 'gray',
+    },
+    detailsButton: {
+        backgroundColor: '#e9ecef',
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        borderRadius: 20
+    },
+    emptyText: {
+        textAlign: 'center',
+        marginTop: 20,
+        color: 'gray',
+    },
+    safeArea: {
+        flex: 1,
+        backgroundColor: '#f8f9fa',
     },
     headerContainer: {
         flexDirection: 'row',
@@ -122,12 +195,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginLeft: 10,
     },
-    listHeader: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: '#495057',
-        marginBottom: 10,
-    },
     list: {
         flex: 1,
     },
@@ -142,21 +209,10 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#e9ecef',
     },
-    barberName: {
-        fontSize: 16,
-        fontWeight: '600',
-        color: '#343a40',
-    },
     barberSpecialty: {
         fontSize: 14,
         color: '#6c757d',
         marginTop: 4,
-    },
-    detailsButton: {
-        backgroundColor: '#f0f0f0',
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-        borderRadius: 20,
     },
     detailsButtonText: {
         color: '#343a40',

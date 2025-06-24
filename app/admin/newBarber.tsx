@@ -48,7 +48,8 @@ export default function AddBarberScreen() {
         
         try{
             setErrorMessage("");
-            await registerBarber(name, email, password);
+            await registerBarber(name, email, password, city, country, postalCode, state, street, number, complement);
+            router.navigate('/admin');
         } catch(error: any){
             if(!isDesktop){
                 Alert.alert(error.response?.data?.message || error.message || "Something went wrong")

@@ -1,7 +1,18 @@
 import api from "./api";
-const registerBarber = async(name: string, email: string, password: string)=>{
+const registerBarber = async(
+    name: string,
+    email: string,
+    password: string,
+    city: string,
+    country: string,
+    postalCode: string,
+    state: string,
+    street: string,
+    number: string,
+    complement?: string,)=>{
     try{
         const response = await api.post('/users', {name, email, password, role:'Barber'})
+        await addAdress(response.data.id, city, country, postalCode, state, street, number, complement)
         return response.data;
     }
     catch(err: any){
@@ -9,5 +20,33 @@ const registerBarber = async(name: string, email: string, password: string)=>{
         throw err;
     }
 }
+const addAdress = async(
+    userId:string,
+    city: string,
+    country: string,
+    postalCode: string,
+    state: string,
+    street: string,
+    number: string,
+    complement?: string,
+    ) => {
+        try{
+            const response = await api.post('/addresses/add', {userId, city, country, postalCode, state, street, number, complement});
+            return response.data;
+        }
+        catch(err: any){
+            throw err;
+        }
+        
+    }
 
-export { registerBarber }
+const getBarbers = async()=>{
+    try{
+        const response = await api.get('/users/barbers');
+        return response.data;
+    }
+    catch(err: any){
+        throw err;
+    }
+}
+export { registerBarber, getBarbers }

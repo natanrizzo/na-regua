@@ -9,9 +9,9 @@ const routePermissions: { [key: string]: string[] } = {
   'client':['Client'],
 }
 const homeRoutes ={
-  Administrator: '/admin/home',
-  Barber: '/barber/home',
-  Client: '/client/home',
+  Administrator: '/admin',
+  Barber: '/barber',
+  Client: '/client',
 } as const;
 const ProtectedLayout = () => {
   const { isAuthenticated, isLoading, user } = useAuth();
