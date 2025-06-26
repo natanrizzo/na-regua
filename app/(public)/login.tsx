@@ -43,7 +43,7 @@ export default function LoginScreen() {
         }
         setIsLoading(true);
         try {
-            await login(email, password);
+            await login(email.toLowerCase(), password);
         } catch (error: any) {
             if(!isDesktop){
                 Alert.alert("Login error", "Something went wrong.");

@@ -21,7 +21,7 @@ const registerBarber = async(
     }
 }
 const addAdress = async(
-    userId:string,
+    userId: string,
     city: string,
     country: string,
     postalCode: string,
@@ -49,4 +49,26 @@ const getBarbers = async()=>{
         throw err;
     }
 }
-export { registerBarber, getBarbers }
+
+const getBarberById = async(userId:string) =>{
+    try{
+        const response = await api.get(`/users/${userId}`);
+        return response.data;
+    }
+    catch(err:any){
+        throw err;
+    }
+}
+
+const getAppointmentsById = async(userId:string) =>{
+    try{
+        const response = await api.get(`/${userId}`)
+    }
+    catch(err:any){
+        throw err;
+    }
+}
+const getServicesById = async(userId:string) =>{
+    
+}
+export { registerBarber, getBarbers, getBarberById }
