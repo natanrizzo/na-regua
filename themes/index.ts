@@ -4,7 +4,7 @@ import { spacings as spacing } from "./Spacings";
 import { breakpoints } from './Breakpoints';
 import { textVariants } from './TextVariants';
 import { stateColors } from './StateColors';
-
+import { fonts } from "./Fonts";
 
 const theme = createTheme({
     colors,
@@ -12,6 +12,8 @@ const theme = createTheme({
     breakpoints,
     textVariants,
     stateColors,
+    fonts,
+    dark: false
 });
 
 type ThemeProps = typeof theme;

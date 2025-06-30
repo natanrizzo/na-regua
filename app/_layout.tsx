@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { AuthProvider, useAuth } from '../context/AuthContext';
 import { Text, View } from 'react-native';
+import { ThemeProvider } from '@react-navigation/native';
+import { theme } from '@/themes';
 
 const routePermissions: { [key: string]: string[] } = {
   'admin':['Administrator'],
