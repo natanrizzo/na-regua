@@ -70,7 +70,7 @@ const formatDateHeader = (dateString: string): string => {
 };
 
 export default function BarberHomeScreen() {
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
     const router = useRouter();
 
     const [appointments, setAppointments] = useState<Appointment[]>([]);
@@ -104,7 +104,10 @@ export default function BarberHomeScreen() {
         });
 
         return (
-            <TouchableOpacity style={styles.appointmentCard}>
+            <TouchableOpacity style={styles.appointmentCard} onPress={() => router.push({
+                            pathname: '/barber/appointment-details/[id]',
+                            params: { id: item.id }
+                        })}>
                 <Text style={styles.appointmentTime}>{time}</Text>
                 <View style={styles.appointmentDetails}>
                     <Text style={styles.appointmentClient}>{item.client.name}</Text>
@@ -129,7 +132,13 @@ export default function BarberHomeScreen() {
         <SafeAreaView style={styles.safeArea}>
             <ScrollView style={styles.container}>
                 <View style={styles.headerContainer}>
-                    <Text style={styles.welcomeTitle}>Olá, {user?.name || 'Barbeiro'}!</Text>
+                    <View>
+                        <Text style={styles.welcomeTitle}>Bem-vindo,</Text>
+                        <Text style={styles.barberName}>{user?.name || 'Barbeiro'}</Text>
+                    </View>
+                    <TouchableOpacity onPress={() => router.push('/barber/profile')}>
+                        <Feather name="user" size={28} color="#333" />
+                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.scheduleContainer}>
@@ -156,15 +165,21 @@ export default function BarberHomeScreen() {
                 </View>
                 
                 <View style={styles.actionsContainer}>
-                    <TouchableOpacity style={styles.actionCard} onPress={() => router.push('/barber')}>
+                    <TouchableOpacity style={styles.actionCard} onPress={() => router.push('/barber/products')}>
                         <MaterialCommunityIcons name="bottle-tonic-plus-outline" size={32} color="#34D399" />
                         <Text style={styles.actionCardTitle}>Pedir Produtos</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.actionCard} onPress={() => router.push('/barber')}>
+                    <TouchableOpacity style={styles.actionCard} onPress={() => router.push('/barber/services')}>
                         <Feather name="edit" size={32} color="#FBBF24" />
                         <Text style={styles.actionCardTitle}>Editar Serviços</Text>
                     </TouchableOpacity>
                 </View>
+                
+                
+                                <TouchableOpacity onPress={logout}>
+                                    <Feather name="log-out" size={20} color="#D9534F" />
+                                    <Text >Sair</Text>
+                                </TouchableOpacity>
             </ScrollView>
         </SafeAreaView>
     );
@@ -178,22 +193,25 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
+        padding: 15,
     },
     headerContainer: {
-        paddingHorizontal: 24,
-        paddingTop: 24,
-        paddingBottom: 16,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 20,
+        paddingHorizontal: 4,
     },
     welcomeTitle: {
-        fontSize: 32,
+        fontSize: 18,
         fontWeight: 'bold',
         color: '#1A202C',
+        marginBottom:-4
     },
     scheduleContainer: {
-        marginHorizontal: 16,
         backgroundColor: '#fff',
         borderRadius: 20,
-        padding: 20,
+        padding: 15,
         elevation: 5,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
@@ -218,7 +236,6 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontWeight: 'bold',
         color: '#2D3748',
-        marginBottom: 20,
     },
     dayBlock: {
         marginBottom: 24,
@@ -229,6 +246,11 @@ const styles = StyleSheet.create({
         color: '#4A5568',
         marginBottom: 12,
         textTransform: 'capitalize',
+    },
+    barberName: {
+        fontSize: 28,
+        fontWeight: 'bold',
+        color: '#1A202C',
     },
     appointmentCard: {
         flexDirection: 'row',
@@ -269,7 +291,7 @@ const styles = StyleSheet.create({
         color: '#4A5568',
     },
     actionsContainer: {
-        padding: 24,
+        marginTop:10,
         flexDirection: 'row',
         justifyContent: 'space-between',
     },

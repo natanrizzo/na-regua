@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { logout } from "./auth";
 
 const api: AxiosInstance = axios.create({
     baseURL: 'http://localhost:3000/api',
@@ -18,5 +19,15 @@ api.interceptors.request.use(
         return config;
     }
 )
+api.interceptors.response.use(
+    response => response,
+    error => {
+        if (error.response && error.response.status === 401) {
+            console.log("Token inválido ou expirado. Deslogando...");
+            logout();
+        }
+        return Promise.reject(error);
+    }
+);
 
 export default api;
