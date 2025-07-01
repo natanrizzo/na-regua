@@ -1,7 +1,7 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { useAuth } from '@/context/AuthContext';
+import { Service } from '@/types/Service';
 
 export default function HomeScreen() {
     const { logout } = useAuth();
@@ -17,7 +17,6 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
     },
     title: {
