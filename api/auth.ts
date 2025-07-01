@@ -19,6 +19,16 @@ const login = async (email: string, password: string) => {
         return response.data;
     } catch (err: any) {
         console.error('Login failed', err.response?.data || err.message);
+         if (err.response) {
+        // The server responded with a status code outside the 2xx range
+        console.log('Error response:', err.response);
+        } else if (err.request) {
+        // The request was made but no response was received
+        console.log('Error request:', err.request);
+        } else {
+        // Something happened in setting up the request that triggered an err
+        console.log('Error message:', err.message);
+        }
         throw err;
     }
 }

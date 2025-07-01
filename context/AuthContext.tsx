@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 
 type Role = 'Administrator' | 'Barber' | 'Client';
 interface User{
-  sub: number;
+  sub: string;
   name: string;
   role: Role;
 }

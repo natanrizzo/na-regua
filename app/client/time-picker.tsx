@@ -94,7 +94,6 @@ const TimePicker: React.FC = () => {
         const isToday = date.getTime() === today.getTime()
         const isPast = date < today
 
-        // Check if this date has any occupied slots
         const hasOccupiedSlots = Object.values(occupiedSlots).some((slots) =>
             slots.some((slot) => slot.startsWith(dateString)),
         )
@@ -116,7 +115,6 @@ const TimePicker: React.FC = () => {
         const slots: string[] = []
         const selectedDate = new Date(dateString + "T00:00:00")
 
-        // Generate hourly slots from 9 AM to 6 PM
         for (let hour = 9; hour <= 18; hour++) {
         const slotDate = new Date(selectedDate)
         slotDate.setHours(hour, 0, 0, 0)
@@ -224,7 +222,6 @@ const TimePicker: React.FC = () => {
         </View>
 
         <View style={styles.calendarContainer}>
-            {/* Calendar Header */}
             <View style={styles.calendarHeader}>
             <TouchableOpacity onPress={() => navigateMonth("prev")} style={styles.navButton}>
                 <Text style={styles.navButtonText}>‹</Text>
@@ -237,7 +234,6 @@ const TimePicker: React.FC = () => {
             </TouchableOpacity>
             </View>
 
-            {/* Days of Week */}
             <View style={styles.weekHeader}>
             {["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"].map((day) => (
                 <Text key={day} style={styles.weekDay}>
@@ -246,7 +242,6 @@ const TimePicker: React.FC = () => {
             ))}
             </View>
 
-            {/* Calendar Grid */}
             <View style={styles.calendarGrid}>
             {calendarDays.map((day, index) => (
                 <TouchableOpacity
@@ -279,7 +274,6 @@ const TimePicker: React.FC = () => {
             </View>
         </View>
 
-        {/* Time Selection Modal */}
         <Modal
             visible={showTimeModal}
             animationType="slide"

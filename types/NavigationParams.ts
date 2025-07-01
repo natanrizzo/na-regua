@@ -9,4 +9,5 @@ export type NavigationParams = {
         selectedServices: Service[]
         selectedDateTime: string
     }
+    ProfileScreen:undefined
 }

@@ -159,9 +159,6 @@ export default function BarberHomeScreen() {
                         <Text style={{textAlign: 'center', paddingVertical: 20, color: 'gray'}}>Você não tem agendamentos futuros.</Text>
                     )}
 
-                    <TouchableOpacity style={styles.fullScheduleButton}>
-                        <Text style={styles.fullScheduleButtonText}>Ver agenda completa</Text>
-                    </TouchableOpacity>
                 </View>
                 
                 <View style={styles.actionsContainer}>
@@ -175,11 +172,6 @@ export default function BarberHomeScreen() {
                     </TouchableOpacity>
                 </View>
                 
-                
-                                <TouchableOpacity onPress={logout}>
-                                    <Feather name="log-out" size={20} color="#D9534F" />
-                                    <Text >Sair</Text>
-                                </TouchableOpacity>
             </ScrollView>
         </SafeAreaView>
     );

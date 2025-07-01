@@ -101,10 +101,6 @@ export default function LoginScreen() {
                     )}
                     
 
-                    <TouchableOpacity>
-                        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-                    </TouchableOpacity>
-
                     <TouchableOpacity 
                         style={styles.signInButton} 
                         onPress={handleLoginPress}
@@ -209,6 +205,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         minHeight: 50, 
+        marginTop:20,
     },
     signInButtonText: {
         color: '#fff',

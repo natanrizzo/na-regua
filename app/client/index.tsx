@@ -7,11 +7,14 @@ import type { Service } from "@/types/Service"
 import { NavigationParams } from "@/types/NavigationParams"
 import { getServices } from "@/api/service";
 import { useAuth } from "@/context/AuthContext"
+import { useRouter } from "expo-router"
+import { Feather } from "@expo/vector-icons"
 
 type ServicesListNavigationProp = StackNavigationProp<NavigationParams, "ServicesList">
 
 const ServicesList: React.FC = () => {
-  const { logout } = useAuth();
+  const router = useRouter();
+  const { user } = useAuth();
   const navigation = useNavigation<ServicesListNavigationProp>()
   const [services, setServices] = useState<Service[]>([])
   const [cart, setCart] = useState<Set<string>>(new Set())
@@ -56,7 +59,10 @@ const ServicesList: React.FC = () => {
       selectedServiceIds: Array.from(cart),
     })
   }
+  const handleProfileClick = () => {
 
+    navigation.navigate("ProfileScreen")
+  }
   const formatPrice = (price: number): string => {
     return `R$${price.toFixed(2)}`
   }
@@ -105,8 +111,15 @@ const ServicesList: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Nossos Serviços</Text>
-      <Button title="Sair (Logout)" onPress={logout} />
+      <View style={styles.headerContainer}>
+        <View>
+            <Text style={styles.welcomeTitle}>Bem-vindo,</Text>
+            <Text style={styles.barberName}>{user?.name || 'Cliente'}</Text>
+        </View>
+        <TouchableOpacity onPress={handleProfileClick}>
+            <Feather name="user" size={28} color="#333" />
+        </TouchableOpacity>
+      </View>
       <FlatList
         data={services}
         renderItem={renderServiceCard}
@@ -131,6 +144,7 @@ const ServicesList: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding:15,
     backgroundColor: "#f8f9fa",
   },
   centerContainer: {
@@ -253,6 +267,24 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "600",
   },
+  headerContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 20,
+        paddingHorizontal: 4,
+    },
+    welcomeTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#1A202C',
+        marginBottom:-4
+    },
+    barberName: {
+        fontSize: 28,
+        fontWeight: 'bold',
+        color: '#1A202C',
+    },
 })
 
 export default ServicesList

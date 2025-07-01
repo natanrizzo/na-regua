@@ -10,6 +10,9 @@ import {
 import { useAuth } from '@/context/AuthContext';
 import { Feather } from '@expo/vector-icons';
 import { Platform } from 'react-native';
+import { NavigationParams } from '@/types/NavigationParams';
+import { RouteProp } from '@react-navigation/native';
+type ProfileScreen = RouteProp<NavigationParams, "ProfileScreen">
 
 export default function ProfileScreen() {
     const { user, logout } = useAuth();
@@ -42,7 +45,7 @@ export default function ProfileScreen() {
                         <Feather name="user" size={32} color="#6D5FFD" />
                     </View>
                     <View style={styles.userInfo}>
-                        <Text style={styles.userName}>{user?.name || 'Admin'}</Text>
+                        <Text style={styles.userName}>{user?.name || 'Cliente'}</Text>
                     </View>
                 </View>
                 <TouchableOpacity 

@@ -42,7 +42,7 @@ export default function ProfileScreen() {
                         <Feather name="user" size={32} color="#6D5FFD" />
                     </View>
                     <View style={styles.userInfo}>
-                        <Text style={styles.userName}>{user?.name || 'Carregando...'}</Text>
+                        <Text style={styles.userName}>{user?.name || 'Barbeiro'}</Text>
                     </View>
                 </View>
                 <TouchableOpacity 
