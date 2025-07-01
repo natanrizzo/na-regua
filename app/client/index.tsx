@@ -1,15 +1,17 @@
 import type React from "react"
 import { useState, useEffect } from "react"
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from "react-native"
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert, ActivityIndicator, Button } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import type { StackNavigationProp } from "@react-navigation/stack"
 import type { Service } from "@/types/Service"
 import { NavigationParams } from "@/types/NavigationParams"
 import { getServices } from "@/api/service";
+import { useAuth } from "@/context/AuthContext"
 
 type ServicesListNavigationProp = StackNavigationProp<NavigationParams, "ServicesList">
 
 const ServicesList: React.FC = () => {
+  const { logout } = useAuth();
   const navigation = useNavigation<ServicesListNavigationProp>()
   const [services, setServices] = useState<Service[]>([])
   const [cart, setCart] = useState<Set<string>>(new Set())
@@ -104,6 +106,7 @@ const ServicesList: React.FC = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Nossos Serviços</Text>
+      <Button title="Sair (Logout)" onPress={logout} />
       <FlatList
         data={services}
         renderItem={renderServiceCard}
